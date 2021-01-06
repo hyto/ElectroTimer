@@ -2,7 +2,7 @@
 #include <Ticker.h>
 #include <Bounce2.h>
 
-#include "naxlib.h"
+// #include "naxlib.h"
 
 #define RELAY_A A0
 #define RELAY_B A1
@@ -13,25 +13,12 @@
 #define BAR_MODE_PROGRESS 0
 #define BAR_MODE_TIME 1
 
-void testRelay() {
-  int curr = digitalRead(RELAY_A);
-  if(curr == HIGH) 
-    curr = LOW;
-  else 
-    curr = HIGH;
-
-  digitalWrite(RELAY_A, curr);
-  digitalWrite(RELAY_B, curr);
-
-  Serial.print("curr es: ");
-  Serial.println(curr);
-}
 
 void showProgressBar();
 void checkTimerPos();
 
 uint8_t progressMode = BAR_MODE_PROGRESS;
-NaxLib nax(12, 100);
+// NaxLib nax(12, 100);
 Ticker timer(checkTimerPos, 1000, 0, MILLIS);
 Ticker barTimer(showProgressBar, 250, 0, MILLIS);
 int32_t count = 0;
@@ -57,7 +44,7 @@ void setup() {
     pinMode(bar[i], OUTPUT);
 
   // put your setup code here, to run once:
-  nax.init();
+  // nax.init();
   Serial.println("hola verano");
   timer.start();
   barTimer.start();
@@ -66,20 +53,6 @@ void setup() {
 void setRelayValue(int value) {
   digitalWrite(RELAY_A, value);
   digitalWrite(RELAY_B, value);  
-}
-
-void test12() {
-  analogWrite(bar[0], 255);
-  analogWrite(bar[2], 255);
-
-  for (int i = 255; i > 0; i--) {
-
-    analogWrite(bar[1], i);
-    analogWrite(bar[3], i);
-    Serial.print("i: "); Serial.println(i);
-    delay(50);
-  }
-  
 }
 
 
@@ -112,24 +85,12 @@ void checkTimerPos() {
   if(pos % 600 == 0)
     count = pos;
 
-  // analogWrite(bar[0], 1024);
-  // analogWrite(bar[1], 512);
-  // analogWrite(bar[2], 1024);
-  // analogWrite(bar[3], 100);
-  // analogWrite(bar[4], 1024);
-  // analogWrite(bar[5], 1024);
-
   Serial.print("pos/count: ");
   Serial.print(pos);
   Serial.print("/");
   Serial.println(count);
-  // Serial.print("barTimer.counter: ");
-  // Serial.println(barTimer.counter());
 }
 
-void showTime() {
-  progressMode = BAR_MODE_TIME;
-}
 
 void lessTime() {
   Serial.println("Restando 600");
@@ -139,7 +100,6 @@ void lessTime() {
 
   pos = count;
 
-  showTime();
   checkTimerPos();
 }
 
@@ -150,28 +110,18 @@ void moreTime() {
     count = 3600;
   pos = count;
 
-  showTime();
   checkTimerPos();
 }
 
 void showProgressBar() {
-
   for(int i = 0; i < 6; i++)
     barPosition(pos, i);
-  // Serial.print("hola progressbar");
-  if(progressMode == BAR_MODE_TIME) { 
+  // if(progressMode == BAR_MODE_TIME) { 
 
-  }
-  else if (progressMode == BAR_MODE_PROGRESS){
-    // force += 5;
-    // if(force % 5 == 0){
-    //   // Serial.print("force: ");
-    //   // Serial.println(force); 
-    // }
-    // if(force > 255)
-    //   force = 0;
-    // analogWrite(bar[0], force); 
-  }
+  // }
+  // else if (progressMode == BAR_MODE_PROGRESS){
+    
+  // }
 }
 
 void loop() {
